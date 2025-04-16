@@ -47,3 +47,27 @@ exports.getAllProducts = async (req, res) => {
         res.status(500).json({ message: 'Failed to get products', error: error.message });
     }
 };
+
+// Super Admin: Update product by ID
+exports.updateProduct = async (req, res) => {
+    const { id } = req.params;
+    const { title, description, price } = req.body;
+  
+    try {
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+    
+        if (title) product.title = title;
+        if (description) product.description = description;
+        if (price) product.price = price;
+    
+        await product.save();
+    
+        res.status(200).json({ message: 'Product updated successfully', product });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to update product', error: error.message });
+    }
+};
