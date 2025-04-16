@@ -71,3 +71,34 @@ exports.updateProduct = async (req, res) => {
         res.status(500).json({ message: 'Failed to update product', error: error.message });
     }
 };
+
+
+// Super Admin: Delete product by ID
+exports.deleteProduct = async (req, res) => {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ message: 'Invalid product ID' });
+    }
+
+    try {
+        const product = await Product.findById(id);
+        if (!product) {
+        return res.status(404).json({ message: 'Product not found' });
+        }
+
+        if (product.image) {
+            const urlParts=product.image.split('/');
+            const filePathWithExt=urlParts[urlParts.length-1];
+            const publicId=filePathWithExt.split('.')[0];
+
+            await cloudinary.uploader.destroy(`user_uploads/${publicId}`);
+        }
+
+        await product.deleteOne();
+        res.status(200).json({ message: 'Product deleted successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to delete product', error: error.message });
+    }
+};
