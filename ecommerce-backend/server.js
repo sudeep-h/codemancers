@@ -8,12 +8,14 @@ require('dotenv').config();
 const app=express();
 
 const authRoutes=require('./routes/authRoutes');
+const productRoutes=require('./routes/productRoutes');
 
 app.use(express.json());
 app.use(cookieParser());
 app.use('/public',express.static(path.join(__dirname,'public')));
 
 app.use('/api/auth',authRoutes);
+app.use('/api/products',productRoutes);
 
 app.get('/',(req,res)=>{
     res.send("Hello!");
@@ -26,6 +28,7 @@ mongoose.connect(process.env.MONGO_URI)
 .catch((err)=>{
     console.log("MongoDB connection failed",err);
 })
+
 
 const PORT=process.env.PORT;
 app.listen(PORT,()=>{
