@@ -1,6 +1,7 @@
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
 
+//Add products to the user's cart
 exports.addToCart = async (req, res) => {
     const userId = req.user._id;
     const { productId, quantity } = req.body;
@@ -20,7 +21,8 @@ exports.addToCart = async (req, res) => {
             });
         } else {
             const itemIndex = cart.items.findIndex(item => item.product.toString() === productId);
-    
+            
+            //If the product is existing then update the quantity
             if (itemIndex > -1) {
             cart.items[itemIndex].quantity += quantity || 1;
             } else {
@@ -34,6 +36,19 @@ exports.addToCart = async (req, res) => {
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Failed to add to cart', error: err.message });
+    }
+};
+
+// Get current user's cart
+exports.getCart = async (req, res) => {
+    try {
+        const cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
+        if (!cart || cart.items.length === 0) {
+            return res.status(200).json({ message: 'Your cart is empty', cart: { items: [] } });
+        }
+        res.status(200).json({ cart });
+    } catch (err) {
+        res.status(500).json({ message: 'Failed to fetch cart', error: err.message });
     }
 };
   
