@@ -10,4 +10,7 @@ router.post('/', protect, cartController.addToCart);
 //Get current user's cart
 router.get('/', protect, cartController.getCart);
 
+//Remove a specific product from cart
+router.delete('/:productId', protect, cartController.removeFromCart);
+
 module.exports = router;
