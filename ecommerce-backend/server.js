@@ -20,16 +20,16 @@ app.use(cors({
     origin: 'http://localhost:5500',
     credentials:true,
 }));
-app.use('/public',express.static(path.join(__dirname,'views')));
+app.get('/',(req,res)=>{
+    // console.log('entered /')
+    res.sendFile(path.resolve(__dirname, 'views', 'register.html'));
+})
+app.use(express.static(path.join(__dirname,'views')));
 
 app.use('/api/auth',authRoutes);
 app.use('/api/products',productRoutes);
 app.use('/api/cart',cartRoutes);
 app.use('/api/checkout',orderRoutes);
-
-app.get('/',(req,res)=>{
-    res.send("Hello!");
-})
 
 mongoose.connect(process.env.MONGO_URI)
 .then(()=>{

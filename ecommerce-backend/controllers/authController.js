@@ -11,13 +11,14 @@ const createToken=(user)=>{
 
 exports.registerUser=async (req,res)=>{
     try{
-        const{email,password}=req.body;
+        const{email,password,role}=req.body;
         const existingUser=await User.findOne({email});
         if(existingUser){
             return res.status(400).json({message:"Email already registered"});
         }
 
-        const user=await User.create({email,password});
+        const user=await User.create({email,password,role});
+
         const token=createToken(user);
 
         res.cookie('token',token,{httpOnly:true});
@@ -38,6 +39,7 @@ exports.loginUser=async(req,res)=>{
         }
 
         const token=createToken(user);
+
         res.cookie('token',token,{httpOnly:true});
 
         res.status(200).json({token,message:`Hello,${user.email}`,user:{email:user.email,role:user.role }});

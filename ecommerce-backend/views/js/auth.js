@@ -7,11 +7,13 @@ if (registerForm) {
 
         const email = document.getElementById('regEmail').value;
         const password = document.getElementById('regPassword').value;
+        const role=document.getElementById('regRole').value;
 
         try{
             const res = await axios.post('http://localhost:5000/api/auth/register', {
                 email,
-                password
+                password,
+                role
             },{
                 withCredentials: true 
             });
