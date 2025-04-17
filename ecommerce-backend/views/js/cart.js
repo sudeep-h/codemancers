@@ -33,7 +33,7 @@ const fetchCart = async () => {
     }
 
     try {
-        const res = await axios.get('/api/cart',{
+        const res = await api.get('/api/cart',{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -71,7 +71,7 @@ const removeFromCart = async (productId) => {
         return;
     }
     try{
-        const res = await axios.delete(`/api/cart/${productId}`,{
+        const res = await api.delete(`/api/cart/${productId}`,{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -103,7 +103,7 @@ const checkout = async () => {
     }
 
 
-    const res = await axios.post('/api/checkout', {
+    const res = await api.post('/api/checkout', {
         shippingAddress
     }, {
         headers: {

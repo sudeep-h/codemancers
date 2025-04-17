@@ -9,13 +9,37 @@
 <body>
     <h2>Product Store</h2>
 
-    <button onclick="logout()">Logout</button>
     <a href="cart.html" style="margin-left: 20px;">Go to Cart</a>
-
+    <button id="logoutButton" onclick="console.log('Logout button clicked2')">Logout</button>
     <div id="productList"></div>
+    <!-- <button id="logoutButton">Logout</button> -->
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="./js/product.js"></script>
-    <script src="./js/auth.js"></script>
+    <script src="./js/product.js" defer></script>
+    <!-- <script src="./js/auth.js" defer></script> -->
+    <script>
+        const logoutBtn = document.getElementById('logoutButton');
+        console.log("loguot button",logoutBtn);
+        if(logoutBtn){
+            logoutBtn.addEventListener('click', async () => {
+                console.log("Logout button clicked1");
+            
+                try {
+                    const res = await api.get('/api/auth/logout');
+                    console.log("Logout API response:", res);
+            
+                    document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+                    alert('Logged out successfully.');
+                    window.location.href = 'login.html';
+                } catch (error) {
+                    console.error('Logout failed:', error);
+                    alert('Error logging out, please try again.');
+                }
+            });
+        }else{
+            console.log("button not found");
+        }
+
+     </script>
 </body>
 </html>

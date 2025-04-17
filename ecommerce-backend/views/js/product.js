@@ -34,7 +34,7 @@ const fetchProducts = async () => {
     }
 
     try {
-        const res = await axios.get('/api/products',{
+        const res = await api.get('/api/products',{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -68,7 +68,7 @@ const addToCart = async (productId) => {
     }
 
     try {
-        const res = await axios.post("/api/cart", {
+        const res = await api.post("/api/cart", {
             productId,
             quantity: 1
         },{
