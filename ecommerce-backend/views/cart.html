@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Your Cart</title>
+    <link rel="stylesheet" href="./css/styles.css">
+</head>
+<body>
+    <h2>Your Cart</h2>
+
+    <a href="index.html">Back to Products</a>
+    <button onclick="logout()" style="float: right;">Logout</button>
+
+    <div id="cartItems"></div>
+
+    <h3>Shipping Address</h3>
+    <input type="text" id="shippingAddress" placeholder="Enter address..." style="width: 300px;" />
+    <br><br>
+    <button onclick="checkout()">Place Order</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="./js/cart.js"></script>
+    <script src="./js/auth.js"></script>
+</body>
+</html>
