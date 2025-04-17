@@ -1,4 +1,15 @@
 const cartItemsContainer = document.getElementById('cartItems');
+const baseURL = window.location.hostname === 'localhost'
+    ? 'http://localhost:5000'
+    : 'https://ecommerce-backend-test-tuf5.onrender.com';
+
+const api = axios.create({
+    baseURL,
+    withCredentials: true,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
 
 const getAuthTokenFromCookies = () => {
     const cookieArray = document.cookie.split("; ");
@@ -22,7 +33,7 @@ const fetchCart = async () => {
     }
 
     try {
-        const res = await axios.get('http://localhost:5000/api/cart',{
+        const res = await axios.get('/api/cart',{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -60,7 +71,7 @@ const removeFromCart = async (productId) => {
         return;
     }
     try{
-        const res = await axios.delete(`http://localhost:5000/api/cart/${productId}`,{
+        const res = await axios.delete(`/api/cart/${productId}`,{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -92,7 +103,7 @@ const checkout = async () => {
     }
 
 
-    const res = await axios.post('http://localhost:5000/api/checkout', {
+    const res = await axios.post('/api/checkout', {
         shippingAddress
     }, {
         headers: {

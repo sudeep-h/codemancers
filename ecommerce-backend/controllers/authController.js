@@ -12,6 +12,7 @@ const createToken=(user)=>{
 exports.registerUser=async (req,res)=>{
     try{
         const{email,password,role}=req.body;
+        // console.log({email,password,role});
         const existingUser=await User.findOne({email});
         if(existingUser){
             return res.status(400).json({message:"Email already registered"});

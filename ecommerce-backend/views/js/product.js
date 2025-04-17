@@ -1,4 +1,15 @@
 const productList = document.getElementById('productList');
+const baseURL = window.location.hostname === 'localhost'
+    ? 'http://localhost:5000'
+    : 'https://ecommerce-backend-test-tuf5.onrender.com';
+
+const api = axios.create({
+    baseURL,
+    withCredentials: true,
+    headers: {
+        'Content-Type': 'application/json',
+    },
+});
 
 const getAuthTokenFromCookies = () => {
     const cookieArray = document.cookie.split("; ");
@@ -23,7 +34,7 @@ const fetchProducts = async () => {
     }
 
     try {
-        const res = await axios.get('http://localhost:5000/api/products',{
+        const res = await axios.get('/api/products',{
             headers: {
                 Authorization: `Bearer ${token}`
             }
@@ -57,7 +68,7 @@ const addToCart = async (productId) => {
     }
 
     try {
-        const res = await axios.post("http://localhost:5000/api/cart", {
+        const res = await axios.post("/api/cart", {
             productId,
             quantity: 1
         },{
