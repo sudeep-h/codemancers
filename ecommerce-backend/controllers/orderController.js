@@ -1,5 +1,6 @@
 const Cart = require('../models/Cart');
 const Order = require('../models/Order');
+const sendEmail = require('../utils/nodemailer');
 
 // Checkout: Create order and clear cart
 exports.checkout = async (req, res) => {
@@ -38,6 +39,27 @@ exports.checkout = async (req, res) => {
         // Clear user's cart after checkout
         cart.items = [];
         await cart.save();
+
+        // Send confirmation email
+        const emailContent = `
+            <h2>Order Confirmation</h2>
+            <p>Thank you for your order!</p>
+            <p><strong>Shipping Address:</strong> ${shippingAddress}</p>
+            <p><strong>Total:</strong> $${totalAmount}</p>
+            <h4>Order Summary:</h4>
+            <ul>
+            ${cart.items.map(item => (
+                `<li>${item.product.title} - Quantity: ${item.quantity}</li>`
+            )).join('')}
+            </ul>
+            `;
+
+        await sendEmail({
+            to: req.user.email,
+            subject: 'Your Online Store Order Confirmation',
+            html: emailContent
+        });
+
 
         res.status(200).json({ message: 'Checkout successful', order });
 
