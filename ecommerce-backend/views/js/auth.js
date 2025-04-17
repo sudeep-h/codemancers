@@ -75,3 +75,18 @@ if (loginForm) {
         }
     });
 }
+
+
+const logout = async () => {
+    try {
+        await axios.get('http://localhost:5000/api/auth/logout');
+        document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
+        alert('Logged out successfully.');
+        window.location.href = 'login.html';
+    } catch (error) {
+        console.error('Logout failed', error);
+        alert('Error logging out, please try again.');
+    }
+};
+
+  
