@@ -16,10 +16,13 @@ const orderRoutes=require('./routes/orderRoutes');
 app.use(express.json());
 app.use(cookieParser());
 // app.use(cors());
-app.use(cors({
-    origin: 'http://localhost:5500',
-    credentials:true,
-}));
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production' 
+        ? 'https://ecommerce-backend-test-tuf5.onrender.com' 
+        : 'http://localhost:5500',
+    credentials: true,
+};
+app.use(cors(corsOptions));
 app.get('/',(req,res)=>{
     // console.log('entered /')
     res.sendFile(path.resolve(__dirname, 'views', 'register.html'));
