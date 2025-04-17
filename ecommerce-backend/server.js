@@ -15,7 +15,11 @@ const orderRoutes=require('./routes/orderRoutes');
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+    origin: 'http://localhost:5500',
+    credentials:true,
+}));
 app.use('/public',express.static(path.join(__dirname,'views')));
 
 app.use('/api/auth',authRoutes);

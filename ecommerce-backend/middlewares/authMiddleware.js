@@ -3,7 +3,10 @@ const User = require('../models/User');
 
 exports.protect = async (req, res, next) => {
   try {
-    const token = req.cookies.token;
+    // const token = req.cookies.token;
+    const authHeader = req.headers.authorization;
+    const token = authHeader && authHeader.split(' ')[1];  
+    // console.log("tpken in midd",token);
     if (!token) {
       return res.status(401).json({ message: 'Not authorized, token missing' });
     }

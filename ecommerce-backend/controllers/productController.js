@@ -36,6 +36,7 @@ exports.createProduct = async (req, res) => {
 
 // Super Admin / User: Get all products
 exports.getAllProducts = async (req, res) => {
+    // console.log("req.hearders",req.headers);
     try {
         const products = await Product.find();
         if (products.length === 0) {
