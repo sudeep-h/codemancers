@@ -10,7 +10,7 @@ if (registerForm) {
         const role=document.getElementById('regRole').value;
 
         try{
-            const res = await axios.post('http://localhost:5000/api/auth/register', {
+            const res = await axios.post('https://ecommerce-backend-test-tuf5.onrender.com/api/auth/register', {
                 email,
                 password,
                 role
@@ -51,7 +51,7 @@ if (loginForm) {
         const password = document.getElementById('loginPassword').value;
 
         try{
-            const res = await axios.post('http://localhost:5000/api/auth/login', {
+            const res = await axios.post('https://ecommerce-backend-test-tuf5.onrender.com/api/auth/register', {
                 email,
                 password
             },{
@@ -81,7 +81,7 @@ if (loginForm) {
 
 const logout = async () => {
     try {
-        await axios.get('http://localhost:5000/api/auth/logout');
+        await axios.get('https://ecommerce-backend-test-tuf5.onrender.com/api/auth/register');
         document.cookie = "authToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/";
         alert('Logged out successfully.');
         window.location.href = 'login.html';
