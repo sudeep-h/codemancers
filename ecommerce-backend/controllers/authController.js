@@ -33,9 +33,9 @@ exports.registerUser=async (req,res)=>{
 exports.loginUser=async(req,res)=>{
     try{
         const {email,password}=req.body;
-        console.log({email,password})
+        // console.log({email,password})
         const user=await User.findOne({email});
-        console.log("user",user);
+        // console.log("user",user);
         if(!user || !(await user.comparePassword(password))){
             return res.status(401).json({message:"Invalid Credentials"});
         }

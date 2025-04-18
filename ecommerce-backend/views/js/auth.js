@@ -32,9 +32,9 @@ if (registerForm) {
             const data = res.data;
 
             const token=data.token;
-            console.log("TOKEN",token);
+            // console.log("TOKEN",token);
             document.cookie=`authToken=${token}; path=/; Secure; SameSite:Strict`;
-            console.log("cookie",document.cookie);
+            // console.log("cookie",document.cookie);
 
             alert('Registration successful');
             window.location.href = 'login.html';
@@ -68,13 +68,13 @@ if (loginForm) {
             },{
                 withCredentials: true 
             });
-            console.log(res);
+            // console.log(res);
             const data = res.data;
 
             const token=data.token;
-            console.log("TOKEN",token);
+            // console.log("TOKEN",token);
             document.cookie=`authToken=${token}; path=/; Secure; SameSite:Strict`;
-            console.log("cookie",document.cookie);
+            // console.log("cookie",document.cookie);
             alert(`Welcome ${data.user.email}`);
             window.location.href = 'index.html';
     

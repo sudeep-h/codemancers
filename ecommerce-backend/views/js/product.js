@@ -13,10 +13,10 @@ const api = axios.create({
 
 const getAuthTokenFromCookies = () => {
     const cookieArray = document.cookie.split("; ");
-    console.log("cookieArray",cookieArray);
+    // console.log("cookieArray",cookieArray);
     for (let i = 0; i < cookieArray.length; i++) {
         const cookiePair = cookieArray[i].split("=");
-        console.log("cookiePair",cookiePair);
+        // console.log("cookiePair",cookiePair);
         if (cookiePair[0] === "authToken") {
             return cookiePair[1];
         }
@@ -27,7 +27,7 @@ const getAuthTokenFromCookies = () => {
 
 const fetchProducts = async () => {
     const token = getAuthTokenFromCookies();
-    console.log("token in prod",token)
+    // console.log("token in prod",token)
     if(!token){
         productList.innerHTML = '<p>Please log in to view products.</p>';
         return;
