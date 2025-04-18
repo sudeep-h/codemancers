@@ -17,22 +17,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// const corsOptions = {
-//     origin: process.env.NODE_ENV === 'production' 
-//         ? 'https://ecommerce-backend-test-tuf5.onrender.com' 
-//         : 'http://localhost:5500',
-//     credentials: true,
-// };
-
-const allowedOrigins = [
-    'http://localhost:5500',   // Development
-    'https://ecommerce-backend-test-tuf5.onrender.com',  // Production
-];
-app.use(cors({
-    origin: allowedOrigins,
+const corsOptions = {
+    origin: process.env.NODE_ENV === 'production' 
+        ? 'https://ecommerce-backend-test-tuf5.onrender.com' 
+        : 'http://localhost:5500',
     credentials: true,
-}));
-// app.use(cors(corsOptions));
+};
+
+app.use(cors(corsOptions));
 app.get('/',(req,res)=>{
     // console.log('entered /')
     res.sendFile(path.resolve(__dirname, 'views', 'register.html'));
