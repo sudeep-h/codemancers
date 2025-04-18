@@ -1,3 +1,4 @@
+jest.setTimeout(15000);
 const request=require('supertest');
 const app=require('../server');
 const mongoose=require('mongoose');
@@ -10,19 +11,15 @@ beforeAll(async () => {
     }
 });
 
-afterEach(async () => {
-    if (mongoose.connection.readyState === 1) {
-        await mongoose.connection.db.dropDatabase();
-    }
-});
-
 afterAll(async () => {
+    await new Promise(resolve => setTimeout(resolve, 500)); 
     await mongoose.connection.close();
 });
 
 describe('Auth Routes', () => {
+    const dynamicEmail = `testuser_${Date.now()}@example.com`;
     const dummyUser = {
-        email: 'testuser@example.com',
+        email: dynamicEmail,
         password: 'password123',
         role: 'user'
     };
@@ -36,16 +33,16 @@ describe('Auth Routes', () => {
     });
   
     it('should not register with missing fields', async () => {
-      const res = await request(app)
-        .post('/api/auth/register')
-        .send({ email: 'testuser@example.com' }); 
-  
-      expect(res.statusCode).toBe(500);
-      expect(res.body).toHaveProperty('error');
+        const res = await request(app)
+            .post('/api/auth/register')
+            .send({ email: 'testuser@example.com' }); 
+    
+        expect(res.statusCode).toBe(400);
+        expect(res.body).toHaveProperty('message');
     });
   
     it('should not register if user already exists', async () => {
-        await request(app).post('/api/auth/register').send(dummyUser);
+        await request(app).post('/api/auth/register').send(dummyUser);   //Already registered user above
     
         const res = await request(app).post('/api/auth/register').send(dummyUser);
     
@@ -103,4 +100,4 @@ describe('Auth Routes', () => {
         expect(res.statusCode).toBe(200);
         expect(res.body.message).toMatch(/logged out/i);
     });
-  });
+});

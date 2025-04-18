@@ -33,15 +33,22 @@ exports.registerUser=async (req,res)=>{
 exports.loginUser=async(req,res)=>{
     try{
         const {email,password}=req.body;
-
+        console.log({email,password})
         const user=await User.findOne({email});
+        console.log("user",user);
         if(!user || !(await user.comparePassword(password))){
             return res.status(401).json({message:"Invalid Credentials"});
         }
 
         const token=createToken(user);
 
-        res.cookie('token',token,{httpOnly:true});
+        // res.cookie('token',token,{httpOnly:true});
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            sameSite: 'lax'
+        });
+          
 
         res.status(200).json({token,message:`Hello,${user.email}`,user:{email:user.email,role:user.role }});
     }catch(err){

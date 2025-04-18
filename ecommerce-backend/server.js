@@ -14,6 +14,7 @@ const cartRoutes=require('./routes/cartRoutes');
 const orderRoutes=require('./routes/orderRoutes');
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // app.use(cors());
 const corsOptions = {
@@ -34,18 +35,22 @@ app.use('/api/products',productRoutes);
 app.use('/api/cart',cartRoutes);
 app.use('/api/checkout',orderRoutes);
 
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-    console.log("MOngoDB connected successfully")
-})
-.catch((err)=>{
-    console.log("MongoDB connection failed",err);
-})
+if(process.env.NODE_ENV !=='test'){
+        mongoose.connect(process.env.MONGO_URI)
+    .then(()=>{
+        console.log("MOngoDB connected successfully")
+    })
+    .catch((err)=>{
+        console.log("MongoDB connection failed",err);
+    })
 
 
-const PORT=process.env.PORT;
-app.listen(PORT,()=>{
-    console.log(`Server running on port ${PORT}`);
-})
+    const PORT=process.env.PORT;
+    app.listen(PORT,()=>{
+        console.log(`Server running on port ${PORT}`);
+    })
+}
+
+
 
 module.exports = app;

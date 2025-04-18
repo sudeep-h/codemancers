@@ -10,7 +10,7 @@ const {createProduct,getAllProducts,updateProduct,deleteProduct} = require('../c
 router.post('/', protect, requireAdmin, upload.single('image'), createProduct);
 
 //All users can get all products
-router.get('/', protect, getAllProducts);
+router.get('/', getAllProducts);
 
 //only super admin can update a product
 router.put('/:id', protect, updateProduct);

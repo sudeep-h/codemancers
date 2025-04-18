@@ -36,6 +36,8 @@ exports.checkout = async (req, res) => {
 
         await order.save();
 
+        const itemsCopy = [...cart.items];  //For testing purpose
+
         // Clear user's cart after checkout
         cart.items = [];
         await cart.save();
