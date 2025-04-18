@@ -55,10 +55,11 @@
         }
 
         const checkRole = async () => {
-            // console.log("entered checkrole");
+            console.log("entered checkrole");
             try {
                 const res = await api.get('/api/auth/profile');
                 const user = res.data.user;
+                console.log("user",user.role);
                 if (user.role === 'admin') {
                     adminLink.style.display = 'inline-block';
                 }
