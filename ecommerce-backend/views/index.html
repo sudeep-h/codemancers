@@ -10,6 +10,7 @@
     <h2>Product Store</h2>
 
     <a href="cart.html" style="margin-left: 20px;">Go to Cart</a>
+    <a href="admin.html" id="adminLink" class="btn btn-warning me-2" style="display: none;">Admin Panel</a>
     <button id="logoutButton" onclick="console.log('Logout button clicked2')">Logout</button>
     <div id="productList"></div>
     <!-- <button id="logoutButton">Logout</button> -->
@@ -18,8 +19,21 @@
     <script src="./js/product.js" defer></script>
     <!-- <script src="./js/auth.js" defer></script> -->
     <script>
+        axios.defaults.withCredentials = true;
+        const baseURL = window.location.hostname === 'localhost'
+            ? 'http://localhost:5000'
+            : 'https://ecommerce-backend-test-tuf5.onrender.com';
+
+        const api = axios.create({
+            baseURL,
+            withCredentials: true,
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
         const logoutBtn = document.getElementById('logoutButton');
-        console.log("loguot button",logoutBtn);
+        const adminLink = document.getElementById('adminLink');
+
         if(logoutBtn){
             logoutBtn.addEventListener('click', async () => {
                 console.log("Logout button clicked1");
@@ -39,6 +53,21 @@
         }else{
             console.log("button not found");
         }
+
+        const checkRole = async () => {
+            // console.log("entered checkrole");
+            try {
+                const res = await api.get('/api/auth/profile');
+                const user = res.data.user;
+                if (user.role === 'admin') {
+                    adminLink.style.display = 'inline-block';
+                }
+            } catch (err) {
+                console.warn("User not logged in or unable to get profile",err.message);
+            }
+        };
+
+        checkRole();
 
      </script>
 </body>

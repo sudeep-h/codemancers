@@ -1,0 +1,68 @@
+<!-- create.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Product</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <div>
+    <h2>Add New Product</h2>
+    <form id="createProductForm" enctype="multipart/form-data">
+      <div >
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" required>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" required></textarea>
+      </div>
+      <div>
+        <label for="price" class="form-label">Price</label>
+        <input type="number" class="form-control" id="price" name="price" required>
+      </div>
+      <div>
+        <label for="image" class="form-label">Product Image</label>
+        <input type="file" class="form-control" id="image" name="image" accept="image/*" required>
+      </div>
+      <button type="submit" class="btn btn-success">Create Product</button>
+      <a href="admin.html" class="btn btn-secondary">Back to Dashboard</a>
+    </form>
+  </div>
+  <script src="./js/create.js"></script>
+  <!-- <script>
+    axios.defaults.withCredentials = true;
+    const baseURL = window.location.hostname === 'localhost'
+    ? 'http://localhost:5000'
+    : 'https://ecommerce-backend-test-tuf5.onrender.com';
+
+    const api = axios.create({
+        baseURL,
+        withCredentials: true,
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    const form = document.getElementById('createProductForm');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const formData = new FormData(form);
+
+      try {
+        const res = await api.post('/api/products', formData);
+        alert('Product created successfully!');
+        window.location.href = 'admin.html';
+      } catch (error) {
+        console.error(error);
+        alert('Failed to create product');
+      }
+    });
+  </script> -->
+</body>
+</html>

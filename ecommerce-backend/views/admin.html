@@ -1,0 +1,72 @@
+<!-- admin.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Panel - Product Manager</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <a href="index.html" class="btn btn-warning me-2">Back to Products</a>
+  <div id="adminContent"></div>
+
+  <script>
+    axios.defaults.withCredentials = true;
+
+    const adminContent = document.getElementById('adminContent');
+
+    const checkAdmin = async () => {
+      try {
+        const res = await axios.get('http://localhost:5000/api/auth/profile');
+        const user = res.data.user;
+
+        if (user.role !== 'admin') {
+          alert("Access denied: Admins only.");
+          window.location.href = 'index.html';
+          return;
+        }
+
+        loadAdminUI();
+
+      } catch (err) {
+        alert("Please log in as admin to continue.");
+        window.location.href = 'index.html';
+      }
+    };
+
+    const loadAdminUI = () => {
+      adminContent.innerHTML = `
+        <p>Welcome, Admin!</p>
+        <button onclick="window.location.href='create.html'">Add New Product</button>
+        <div id="productList"></div>
+      `;
+      fetchProducts();
+    };
+
+    const fetchProducts = async () => {
+      const res = await axios.get('http://localhost:5000/api/products');
+      const products = res.data.products;
+
+      const listContainer = document.getElementById('productList');
+      listContainer.innerHTML = products.map(p => `
+        <div style="border:1px solid #ccc; margin:10px; padding:10px;">
+          <h3>${p.title}</h3>
+          <p>${p.description}</p>
+          <p>Price: $${p.price}</p>
+          <button onclick="deleteProduct('${p._id}')">Delete</button>
+          <button onclick="window.location.href='editProduct.html?id=${p._id}'">Edit</button>
+        </div>
+      `).join('');
+    };
+
+    const deleteProduct = async (id) => {
+      if (!confirm('Delete this product?')) return;
+      await axios.delete(`http://localhost:5000/api/products/${id}`);
+      fetchProducts();
+    };
+
+    checkAdmin();
+  </script>
+</body>
+</html>

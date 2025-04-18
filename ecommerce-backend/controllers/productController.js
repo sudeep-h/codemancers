@@ -49,10 +49,26 @@ exports.getAllProducts = async (req, res) => {
     }
 };
 
+exports.getAllProductById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const product = await Product.findById(id);
+        if (!product) {
+            return res.status(404).json({ message: 'Product not found' });
+        }
+        res.status(200).json({ product });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Failed to get product', error: error.message });
+    }
+};
+
 // Super Admin: Update product by ID
 exports.updateProduct = async (req, res) => {
+    console.log("Entered")
     const { id } = req.params;
     const { title, description, price } = req.body;
+    console.log("req.body",req.body);
   
     try {
         const product = await Product.findById(id);

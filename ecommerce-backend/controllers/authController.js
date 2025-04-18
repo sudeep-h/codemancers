@@ -60,3 +60,13 @@ exports.logoutUser=async(req,res)=>{
     res.clearCookie('token');
     res.status(200).json({message:"Logged out successfully"});
 }
+
+exports.getProfile = async (req, res) => {
+    if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+    
+    res.status(200).json({ user: req.user });
+};
+
+
