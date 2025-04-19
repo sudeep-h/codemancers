@@ -1,4 +1,5 @@
 const cartItemsContainer = document.getElementById('cartItems');
+const totalDiv=document.getElementById('totalAmount');
 const baseURL = window.location.hostname === 'localhost'
     ? 'http://localhost:5000'
     : 'https://ecommerce-backend-test-tuf5.onrender.com';
@@ -48,11 +49,12 @@ const fetchCart = async () => {
 
         cartItemsContainer.innerHTML = data.cart.items.map(item => `
             <div style="border: 1px solid #ccc; padding: 10px; margin: 8px 0;">
-            <strong>${item.product.title}</strong> - Quantity: ${item.quantity}
+            <strong>${item.product.title}</strong> - Price:$${item.product.price} - Quantity: ${item.quantity}
             <br>
             <button onclick="removeFromCart('${item.product._id}')">Remove</button>
             </div>
         `).join('');
+        totalDiv.textContent=`Total Cart Amount:$${data.cart.totalAmount}`
         } else {
         cartItemsContainer.innerHTML = '<p>Could not load cart.</p>';
         }

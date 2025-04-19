@@ -44,9 +44,16 @@ exports.getCart = async (req, res) => {
     try {
         const cart = await Cart.findOne({ user: req.user._id }).populate('items.product');
         if (!cart || cart.items.length === 0) {
-            return res.status(200).json({ message: 'Your cart is empty', cart: { items: [] } });
+            return res.status(200).json({ message: 'Your cart is empty', cart: { items: [] } , totalAmount:0});
         }
-        res.status(200).json({ cart });
+        const totalAmount = cart.items.reduce((acc, item) => {
+            return acc + item.quantity * item.product.price;
+            }, 0);
+
+        res.status(200).json({ cart :{
+            items:cart.items,
+            totalAmount
+        }});
     } catch (err) {
         res.status(500).json({ message: 'Failed to fetch cart', error: err.message });
     }
