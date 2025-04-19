@@ -37,11 +37,7 @@ exports.checkout = async (req, res) => {
         await order.save();
 
         const itemsCopy = [...cart.items];  //For testing purpose
-
-        // Clear user's cart after checkout
-        cart.items = [];
-        await cart.save();
-
+        
         // Send confirmation email
         const emailContent = `
             <h2>Order Confirmation</h2>
@@ -61,8 +57,10 @@ exports.checkout = async (req, res) => {
             subject: 'Your Online Store Order Confirmation',
             html: emailContent
         });
-
-
+        
+        // Clear user's cart after checkout
+        cart.items = [];
+        await cart.save();
         res.status(200).json({ message: 'Checkout successful', order });
 
     } catch (error) {

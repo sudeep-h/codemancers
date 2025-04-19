@@ -65,7 +65,7 @@ exports.getAllProductById = async (req, res) => {
 
 // Super Admin: Update product by ID
 exports.updateProduct = async (req, res) => {
-    console.log("Entered")
+    // console.log("Entered")
     const { id } = req.params;
     const { title, description, price } = req.body;
     console.log("req.body",req.body);
